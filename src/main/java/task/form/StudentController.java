@@ -11,6 +11,7 @@ import java.util.Arrays;
 import java.util.List;
 
 @Controller
+@RequestMapping("student")
 public class StudentController {
 
     @ModelAttribute("hobbies")
