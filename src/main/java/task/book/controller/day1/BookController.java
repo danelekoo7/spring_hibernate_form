@@ -31,6 +31,8 @@ public class BookController {
     public String getAll(Model model){
         List<Book> books = bookDao.findAll();
         model.addAttribute("books", books);
+        List<Author> authors = authorDao.findAll();
+        model.addAttribute("authors",authors);
         return "books";
     }
 

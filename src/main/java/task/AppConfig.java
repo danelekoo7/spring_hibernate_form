@@ -13,6 +13,7 @@ import org.springframework.web.servlet.config.annotation.DefaultServletHandlerCo
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import org.springframework.web.servlet.view.InternalResourceViewResolver;
+import task.converter.AuthorConverter;
 import task.converter.PublisherConverter;
 
 import javax.persistence.EntityManagerFactory;
@@ -20,7 +21,7 @@ import java.util.List;
 
 @Configuration
 @EnableWebMvc
-@ComponentScan(basePackages ="task")
+@ComponentScan(basePackages = "task")
 @EnableTransactionManagement
 public class AppConfig implements WebMvcConfigurer {
     @Override
@@ -30,6 +31,7 @@ public class AppConfig implements WebMvcConfigurer {
 //                Charset.forName("UTF-8"))));
 //        converters.add(stringConverter);
     }
+
     @Bean
     public ViewResolver viewResolver() {
         InternalResourceViewResolver viewResolver =
@@ -38,10 +40,12 @@ public class AppConfig implements WebMvcConfigurer {
         viewResolver.setSuffix(".jsp");
         return viewResolver;
     }
+
     @Override
     public void configureDefaultServletHandling(DefaultServletHandlerConfigurer configurer) {
         configurer.enable();
     }
+
     @Bean
     public LocalEntityManagerFactoryBean entityManagerFactory() {
         LocalEntityManagerFactoryBean entityManagerFactoryBean
@@ -49,6 +53,7 @@ public class AppConfig implements WebMvcConfigurer {
         entityManagerFactoryBean.setPersistenceUnitName("bookstorePersistenceUnit");
         return entityManagerFactoryBean;
     }
+
     @Bean
     public JpaTransactionManager transactionManager(EntityManagerFactory entityManagerFactory) {
         JpaTransactionManager jpaTransactionManager =
@@ -60,11 +65,16 @@ public class AppConfig implements WebMvcConfigurer {
     @Override
     public void addFormatters(FormatterRegistry registry) {
         registry.addConverter(getPublisherConverter());
+        registry.addConverter(getAuthorConverter());
     }
 
     @Bean
-    public PublisherConverter getPublisherConverter(){
+    public PublisherConverter getPublisherConverter() {
         return new PublisherConverter();
     }
 
+    @Bean
+    public AuthorConverter getAuthorConverter() {
+        return new AuthorConverter();
+    }
 }

@@ -4,6 +4,7 @@ package task.book.dao;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 import task.book.entity.Author;
+import task.book.entity.Book;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -19,12 +20,17 @@ public class AuthorDao {
 //    day2
 
 
-    public List<Author> findAll(){
+    public List<Author> findAll() {
         Query query = entityManager.createQuery("SELECT a FROM Author a");
         List<Author> authors = query.getResultList();
         return authors;
     }
 
+    public List<Author> findByBook(Book book) {
+        Query query = entityManager.createQuery("SELECT a FROM Author a JOIN ");
+        List<Author> authors = query.getResultList();
+        return authors;
+    }
 
 
 //    day1

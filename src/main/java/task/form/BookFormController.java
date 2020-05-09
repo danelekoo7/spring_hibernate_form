@@ -4,8 +4,10 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.view.RedirectView;
+import task.book.dao.AuthorDao;
 import task.book.dao.BookDao;
 import task.book.dao.PublisherDao;
+import task.book.entity.Author;
 import task.book.entity.Book;
 import task.book.entity.Publisher;
 
@@ -17,11 +19,13 @@ public class BookFormController {
 
     private final PublisherDao publisherDao;
     private final BookDao bookDao;
+    private final AuthorDao authorDao;
 
 
-    public BookFormController(PublisherDao publisherDao, BookDao bookDao) {
+    public BookFormController(PublisherDao publisherDao, BookDao bookDao, AuthorDao authorDao) {
         this.publisherDao = publisherDao;
         this.bookDao = bookDao;
+        this.authorDao = authorDao;
     }
 
     @RequestMapping(value = "", method = RequestMethod.GET)
@@ -73,5 +77,10 @@ public class BookFormController {
     @ModelAttribute("publishers")
     public List<Publisher> publisherList() {
         return publisherDao.findAll();
+    }
+
+    @ModelAttribute("authors")
+    public List<Author> authorList() {
+        return authorDao.findAll();
     }
 }

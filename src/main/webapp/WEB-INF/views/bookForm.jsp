@@ -15,11 +15,12 @@
 </head>
 <body>
 <form:form method="POST" modelAttribute="book">
-    <form:input path="title"/>
-    <form:input path="rating"/>
-    <form:input path="description"/>
-
-    <form:select path="publisher" itemLabel="name" itemValue="id" items="${publishers}"/>
+    title: <form:input path="title"/>
+    rating: <form:input path="rating"/>
+    description: <form:input path="description"/>
+<br>
+   publisher: <form:select path="publisher" itemLabel="name" itemValue="id" items="${publishers}"/>
+   author: <form:select path="authors" itemLabel="lastName"  itemValue="id" items="${authors}"/>
 
     <input type="submit">
 </form:form>

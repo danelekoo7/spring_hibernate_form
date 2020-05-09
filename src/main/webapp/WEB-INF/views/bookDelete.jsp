@@ -15,24 +15,6 @@
 </head>
 <body>
 <table>
-    <%--    <tbody>--%>
-    <%--    <h1>Czy chcesz usunąć podaną książkę ?</h1>--%>
-    <%--    <th>Title</th>--%>
-    <%--    <th>rating</th>--%>
-    <%--    <th>description</th>--%>
-    <%--    <th>publisher</th>--%>
-    <%--    <c:forEach items="${oneBook}" var="book">--%>
-    <%--        <tr>--%>
-    <%--            <td><c:out value="${book.title    }"/></td>--%>
-    <%--            <td><c:out value="${book.rating}"/></td>--%>
-    <%--            <td><c:out value="${book.description}"/></td>--%>
-    <%--            <td><c:out value="${book.publisher.name}"/></td>--%>
-    <%--            <td><a href="<c:url value = "/bookForm/deleteAction/true"/>">TAK</a></td>--%>
-    <%--            <td><a href="<c:url value = "/bookForm/deleteAction/false"/>">NIE</a></td>--%>
-    <%--        </tr>--%>
-    <%--    </c:forEach>--%>
-    <%--    </tbody>--%>
-
         <h1> czy na pewno chcesz usunąc ponższą ksiązke</h1>
 
         title: <c:out value="${oneBook.title}"/>
