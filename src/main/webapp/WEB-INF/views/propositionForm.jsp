@@ -11,7 +11,7 @@
 
 <html>
 <head>
-    <title>dodawanie ksiazki</title>
+    <title>dodawanie propozycji ksiazki</title>
 </head>
 <body>
 <form:form method="POST" modelAttribute="book">
@@ -21,8 +21,7 @@
     <form:errors path="rating"/>
     description: <form:input path="description"/>
     <form:errors path="description"/>
-    proposition: <form:checkbox path="proposition"/>
-    <form:errors path="proposition"/>
+
 <br>
    publisher: <form:select path="publisher" itemLabel="name" itemValue="id" items="${publishers}"/>
 <%--   authors: <form:select path="authors" itemLabel="lastName"  itemValue="id" items="${authors}"/>--%>

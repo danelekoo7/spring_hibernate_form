@@ -66,4 +66,25 @@ public class ValidationController {
 
         return "validation";
     }
+
+
+    @RequestMapping("/author")
+    @ResponseBody
+    public String validateAuthor(){
+        StringBuffer sb = new StringBuffer();
+
+        Author author = new Author();
+        author.setYearOfBirth(1990);
+
+        Set<ConstraintViolation<Author>> constraintViolations = validator.validate(author);
+
+        for( ConstraintViolation<Author> authorConstraintViolation : constraintViolations){
+            sb.append(authorConstraintViolation.getPropertyPath());
+            sb.append(" ");
+            sb.append(authorConstraintViolation.getMessage());
+            sb.append("\n");
+        }
+
+        return sb.toString();
+    }
 }

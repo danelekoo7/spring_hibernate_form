@@ -12,6 +12,7 @@ public class PublisherConverter implements Converter<String, Publisher> {
 
     @Override
     public Publisher convert(String sourceId) {
+
         return publisherDao.findById(Long.parseLong(sourceId));
     }
 

@@ -25,6 +25,13 @@ public class BookDao {
         return books;
     }
 
+    public List<Book> findAllProposition(){
+        Query query = entityManager.createQuery("SELECT b FROM Book b WHERE b.proposition = true ");
+        List<Book> books = query.getResultList();
+
+        return books;
+    }
+
     public List<Book> findAllWithRatingGreaterThen(Integer rating){
         Query query = entityManager.createQuery("SELECT b FROM Book b WHERE b.rating > :rating");
         query.setParameter("rating", rating);

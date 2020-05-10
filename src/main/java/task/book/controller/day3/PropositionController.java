@@ -1,8 +1,9 @@
-package task.form;
+package task.book.controller.day3;
+
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.validation.BindingResult;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.view.RedirectView;
 import task.book.dao.AuthorDao;
@@ -11,38 +12,48 @@ import task.book.dao.PublisherDao;
 import task.book.entity.Author;
 import task.book.entity.Book;
 import task.book.entity.Publisher;
+import task.validation.ValidationPropositionGroup;
 
-import javax.validation.Valid;
 import java.util.List;
 
 @Controller
-@RequestMapping("/bookForm")
-public class BookFormController {
+@RequestMapping("/proposition")
+public class PropositionController {
 
     private final PublisherDao publisherDao;
     private final BookDao bookDao;
     private final AuthorDao authorDao;
 
-
-    public BookFormController(PublisherDao publisherDao, BookDao bookDao, AuthorDao authorDao) {
+    public PropositionController(PublisherDao publisherDao, BookDao bookDao, AuthorDao authorDao) {
         this.publisherDao = publisherDao;
         this.bookDao = bookDao;
         this.authorDao = authorDao;
     }
 
+
     @RequestMapping(value = "", method = RequestMethod.GET)
     public String getForm(Model model) {
         model.addAttribute("book", new Book());
-        return "bookForm";
+        return "propositionForm";
     }
 
-    @RequestMapping(value = "", method = RequestMethod.POST)
-    public String create(@Valid Book book, BindingResult result) {
-        if (result.hasErrors()){
-            return "bookForm";
-        }
-        bookDao.saveBook(book);
-        return "redirect:/all";
+
+    @PostMapping
+    public String create(@Validated({ValidationPropositionGroup.class}) Book book, Model model){
+        Book newBook = new Book();
+        newBook.setDescription(book.getDescription());
+        newBook.setTitle(book.getTitle());
+        newBook.setPublisher(book.getPublisher());
+        newBook.setPages(book.getPages());
+        newBook.setAuthors(book.getAuthors());
+        newBook.setRating(book.getRating());
+        newBook.setProposition(true);
+        bookDao.saveBook(newBook);
+
+        List<Book> books = bookDao.findAllProposition();
+        model.addAttribute("books", books);
+
+        return "propositionAll";
     }
 
 

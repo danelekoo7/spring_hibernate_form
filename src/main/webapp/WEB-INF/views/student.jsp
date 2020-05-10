@@ -9,7 +9,7 @@
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <html>
 <head>
-    <title>Title</title>
+    <title>student</title>
 </head>
 <body>
 <form:form method="POST" modelAttribute="student">

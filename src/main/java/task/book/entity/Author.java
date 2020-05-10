@@ -1,6 +1,8 @@
 package task.book.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.hibernate.validator.constraints.pl.PESEL;
+import task.validation.IsMature;
 
 import javax.persistence.*;
 import javax.validation.constraints.Email;
@@ -28,7 +30,11 @@ public class Author {
     @Email
     private String email;
 
-    @ManyToMany(mappedBy = "authors")
+    @IsMature
+    private Integer yearOfBirth;
+
+    @JsonIgnore
+    @ManyToMany(mappedBy = "authors", fetch = FetchType.EAGER)
     private List<Book> books = new ArrayList<>();
 
     public Long getId() {
@@ -87,7 +93,15 @@ public class Author {
                 ", lastName='" + lastName + '\'' +
                 ", pesel='" + pesel + '\'' +
                 ", email='" + email + '\'' +
-                ", books=" + books +
+//                ", books=" + books +
                 '}';
+    }
+
+    public Integer getYearOfBirth() {
+        return yearOfBirth;
+    }
+
+    public void setYearOfBirth(Integer yearOfBirth) {
+        this.yearOfBirth = yearOfBirth;
     }
 }

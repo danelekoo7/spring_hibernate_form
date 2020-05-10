@@ -1,6 +1,7 @@
 package task.book.entity;
 
 import org.hibernate.validator.constraints.Range;
+import task.validation.ValidationPropositionGroup;
 
 import javax.persistence.*;
 import javax.validation.constraints.Min;
@@ -17,7 +18,7 @@ public class Book {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Size(min = 5)
+    @Size(min = 5, groups = ValidationPropositionGroup.class)
     private String title;
 
     @Range(min = 0, max = 10)
@@ -28,6 +29,9 @@ public class Book {
 
     @Min(1)
     private Integer pages;
+
+
+    private boolean proposition;
 
     @NotNull
     @ManyToMany(fetch = FetchType.EAGER)
@@ -106,8 +110,16 @@ public class Book {
                 ", rating=" + rating +
                 ", description='" + description + '\'' +
                 ", pages=" + pages +
-                ", authors=" + authors +
+//                ", authors=" + authors +
                 ", publisher=" + publisher +
                 '}';
+    }
+
+    public boolean isProposition() {
+        return proposition;
+    }
+
+    public void setProposition(boolean proposition) {
+        this.proposition = proposition;
     }
 }

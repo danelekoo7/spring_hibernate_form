@@ -26,11 +26,11 @@ public class AuthorDao {
         return authors;
     }
 
-    public List<Author> findByBook(Book book) {
-        Query query = entityManager.createQuery("SELECT a FROM Author a JOIN ");
-        List<Author> authors = query.getResultList();
-        return authors;
-    }
+//    public List<Author> findByBook(Book book) {
+//        Query query = entityManager.createQuery("SELECT a FROM Author a JOIN ");
+//        List<Author> authors = query.getResultList();
+//        return authors;
+//    }
 
 
 //    day1
