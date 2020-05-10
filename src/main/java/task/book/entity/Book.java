@@ -1,6 +1,11 @@
 package task.book.entity;
 
+import org.hibernate.validator.constraints.Range;
+
 import javax.persistence.*;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -11,16 +16,30 @@ public class Book {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
+    @Size(min = 5)
     private String title;
+
+    @Range(min = 0, max = 10)
     private Integer rating;
+
+    @Size(max = 600)
     private String description;
 
+    @Min(1)
+    private Integer pages;
+
+    @NotNull
     @ManyToMany(fetch = FetchType.EAGER)
     private List<Author> authors = new ArrayList<>();
 
+    @NotNull
     @ManyToOne
     @JoinColumn(name = "publisher_id")
     private Publisher publisher;
+
+    public Book() {
+    }
 
     public Publisher getPublisher() {
         return publisher;
@@ -70,6 +89,13 @@ public class Book {
         this.authors = authors;
     }
 
+    public Integer getPages() {
+        return pages;
+    }
+
+    public void setPages(Integer pages) {
+        this.pages = pages;
+    }
 
 
     @Override
@@ -79,6 +105,9 @@ public class Book {
                 ", title='" + title + '\'' +
                 ", rating=" + rating +
                 ", description='" + description + '\'' +
+                ", pages=" + pages +
+                ", authors=" + authors +
+                ", publisher=" + publisher +
                 '}';
     }
 }

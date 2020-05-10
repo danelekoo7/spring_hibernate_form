@@ -1,6 +1,10 @@
 package task.book.entity;
 
+import org.hibernate.validator.constraints.pl.NIP;
+import org.hibernate.validator.constraints.pl.REGON;
+
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -11,7 +15,15 @@ public class Publisher {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
+    @NotNull
     private String name;
+
+    @NIP
+    private String nip;
+
+    @REGON
+    private String regon;
 
 
 //    @OneToMany(fetch = FetchType.EAGER)
@@ -43,14 +55,30 @@ public class Publisher {
 //        this.books = books;
 //    }
 
+
+    public String getNip() {
+        return nip;
+    }
+
+    public void setNip(String nip) {
+        this.nip = nip;
+    }
+
+    public String getRegon() {
+        return regon;
+    }
+
+    public void setRegon(String regon) {
+        this.regon = regon;
+    }
+
     @Override
     public String toString() {
         return "Publisher{" +
                 "id=" + id +
                 ", name='" + name + '\'' +
-//                ", books=" + books +
+                ", nip=" + nip +
+                ", regon=" + regon +
                 '}';
     }
-
-
 }
