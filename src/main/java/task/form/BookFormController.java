@@ -38,7 +38,7 @@ public class BookFormController {
 
     @RequestMapping(value = "", method = RequestMethod.POST)
     public String create(@Valid Book book, BindingResult result) {
-        if (result.hasErrors()){
+        if (result.hasErrors()) {
             return "bookForm";
         }
         bookDao.saveBook(book);
@@ -46,26 +46,31 @@ public class BookFormController {
     }
 
 
-    @PostMapping(value = "/edit/{id}")
-    public RedirectView update(@ModelAttribute Book bookEdit, @PathVariable Long id) {
-        Book bookInDB = bookDao.findById(id);
-        bookInDB.setPublisher(bookEdit.getPublisher());
-        bookInDB.setTitle(bookEdit.getTitle());
-        bookInDB.setDescription(bookEdit.getDescription());
-        bookInDB.setRating(bookEdit.getRating());
-        bookDao.update(bookInDB);
-        return new RedirectView("/all");
-    }
-
     @GetMapping("/edit/{id}")
     public String edit(@PathVariable Long id, Model model) {
-        model.addAttribute("bookEdit", bookDao.findById(id));
+        model.addAttribute("book", bookDao.findById(id));
         return "bookEdit";
     }
 
+    @PostMapping(value = "/edit/{id}")
+    public String update(@Valid Book book, BindingResult result, @PathVariable Long id) {
+        if (result.hasErrors()) {
+            return "bookEdit";
+        }
+
+        Book bookInDB = bookDao.findById(id);
+        bookInDB.setPublisher(book.getPublisher());
+        bookInDB.setTitle(book.getTitle());
+        bookInDB.setDescription(book.getDescription());
+        bookInDB.setRating(book.getRating());
+        bookDao.update(bookInDB);
+        return "redirect:/all";
+    }
+
+
     @GetMapping("/delete/{id}")
     public String question(@PathVariable Long id, Model model) {
-        model.addAttribute("oneBook", bookDao.findById(id));
+        model.addAttribute("book", bookDao.findById(id));
         return "bookDelete";
     }
 

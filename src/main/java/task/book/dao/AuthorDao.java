@@ -38,7 +38,6 @@ public class AuthorDao {
 //    day1
 
     public void saveAuthor(Author author) {
-
         entityManager.persist(author);
     }
 

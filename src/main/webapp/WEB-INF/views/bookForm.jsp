@@ -23,9 +23,11 @@
     <form:errors path="description"/>
     proposition: <form:checkbox path="proposition"/>
     <form:errors path="proposition"/>
-<br>
-   publisher: <form:select path="publisher" itemLabel="name" itemValue="id" items="${publishers}"/>
-<%--   authors: <form:select path="authors" itemLabel="lastName"  itemValue="id" items="${authors}"/>--%>
+    <br>
+    publisher: <form:select path="publisher" itemLabel="name" itemValue="id" items="${publishers}"/>
+    <form:errors path="publisher"/>
+    authors: <form:select path="authors" itemLabel="lastName" itemValue="id" multiple="true" items="${authors}"/>
+    <form:errors path="authors"/>
 
     <input type="submit">
 </form:form>

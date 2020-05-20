@@ -17,7 +17,9 @@ import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import org.springframework.web.servlet.i18n.SessionLocaleResolver;
 import org.springframework.web.servlet.view.InternalResourceViewResolver;
+
 import task.converter.AuthorConverter;
+import task.converter.BookConverter;
 import task.converter.PublisherConverter;
 
 import javax.persistence.EntityManagerFactory;
@@ -72,6 +74,7 @@ public class AppConfig implements WebMvcConfigurer {
     public void addFormatters(FormatterRegistry registry) {
         registry.addConverter(getPublisherConverter());
         registry.addConverter(getAuthorConverter());
+        registry.addConverter(getBookConverter());
     }
 
 
@@ -80,10 +83,10 @@ public class AppConfig implements WebMvcConfigurer {
         return new LocalValidatorFactoryBean();
     }
 
-    @Bean(name="localeResolver")
+    @Bean(name = "localeResolver")
     public LocaleContextResolver getLocaleContextResolver() {
         SessionLocaleResolver localeResolver = new SessionLocaleResolver();
-        localeResolver.setDefaultLocale(new Locale("pl","PL"));
+        localeResolver.setDefaultLocale(new Locale("pl", "PL"));
         return localeResolver;
     }
 
@@ -97,4 +100,11 @@ public class AppConfig implements WebMvcConfigurer {
     public AuthorConverter getAuthorConverter() {
         return new AuthorConverter();
     }
+
+    @Bean
+    public BookConverter getBookConverter() {
+        return new BookConverter();
+    }
+
+
 }

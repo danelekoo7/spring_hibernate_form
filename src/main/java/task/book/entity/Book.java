@@ -1,5 +1,6 @@
 package task.book.entity;
 
+import com.fasterxml.jackson.annotation.*;
 import org.hibernate.validator.constraints.Range;
 import task.validation.ValidationPropositionGroup;
 
@@ -18,7 +19,8 @@ public class Book {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Size(min = 5, groups = ValidationPropositionGroup.class)
+//    @Size(min = 5, groups = ValidationPropositionGroup.class)
+    @Size(min = 5)
     private String title;
 
     @Range(min = 0, max = 10)
@@ -34,7 +36,9 @@ public class Book {
     private boolean proposition;
 
     @NotNull
+    @JsonBackReference
     @ManyToMany(fetch = FetchType.EAGER)
+
     private List<Author> authors = new ArrayList<>();
 
     @NotNull

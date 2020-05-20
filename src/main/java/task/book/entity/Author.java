@@ -1,6 +1,6 @@
 package task.book.entity;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.*;
 import org.hibernate.validator.constraints.pl.PESEL;
 import task.validation.IsMature;
 
@@ -24,7 +24,7 @@ public class Author {
     @NotNull
     private String lastName;
 
-    @PESEL
+    //    @PESEL
     private String pesel;
 
     @Email
@@ -33,7 +33,8 @@ public class Author {
     @IsMature
     private Integer yearOfBirth;
 
-    @JsonIgnore
+    //    @JsonIgnore
+    @JsonManagedReference
     @ManyToMany(mappedBy = "authors", fetch = FetchType.EAGER)
     private List<Book> books = new ArrayList<>();
 

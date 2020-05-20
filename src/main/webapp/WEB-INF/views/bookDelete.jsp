@@ -15,15 +15,18 @@
 </head>
 <body>
 <table>
-        <h1> czy na pewno chcesz usunąc ponższą ksiązke</h1>
+    <h1> czy na pewno chcesz usunąc ponższą ksiązke</h1>
 
-        title: <c:out value="${oneBook.title}"/>
-        rating: <c:out value="${oneBook.rating}"/>
-        description: <c:out value="${oneBook.description}"/>
-        publisher: <c:out value="${oneBook.publisher.name}"/>
-
-        <td> <a href = "<c:url value = "/bookForm/deleteConfirm/true/${oneBook.id}"/>">TAK</a></td>
-        <td> <a href = "<c:url value = "/bookForm/deleteConfirm/false/${oneBook.id}"/>">NIE</a></td>
+    title: <c:out value="${book.title}"/><br>
+    rating: <c:out value="${book.rating}"/><br>
+    description: <c:out value="${book.description}"/><br>
+    publisher: <c:out value="${book.publisher.name}"/><br>
+    authors: <c:forEach items="${book.authors}" var="author">
+    <c:out value="${author.firstName}"/>
+</c:forEach>
+    <br>
+    <td><a href="<c:url value = "/bookForm/deleteConfirm/true/${book.id}"/>">TAK</a></td>
+    <td><a href="<c:url value = "/bookForm/deleteConfirm/false/${book.id}"/>">NIE</a></td>
 
 </table>
 </body>
