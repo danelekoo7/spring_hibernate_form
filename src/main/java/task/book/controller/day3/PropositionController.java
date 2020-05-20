@@ -3,6 +3,7 @@ package task.book.controller.day3;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.view.RedirectView;
@@ -39,7 +40,9 @@ public class PropositionController {
 
 
     @PostMapping
-    public String create(@Validated({ValidationPropositionGroup.class}) Book book, Model model){
+    public String create(@Validated({ValidationPropositionGroup.class}) Book book, BindingResult result, Model model){
+//        if (result.hasErrors())
+
         Book newBook = new Book();
         newBook.setDescription(book.getDescription());
         newBook.setTitle(book.getTitle());

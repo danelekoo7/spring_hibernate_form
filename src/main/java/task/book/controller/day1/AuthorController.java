@@ -40,7 +40,7 @@ private final AuthorDao authorDao;
 
     @RequestMapping("/author/update/{id}/{firstName}")
     @ResponseBody
-    public String updateauthor(@PathVariable long id, @PathVariable String firstName ) {
+    public String updateAuthor(@PathVariable long id, @PathVariable String firstName ) {
         Author author = authorDao.findById(id);
         author.setFirstName(firstName);
         authorDao.update(author);

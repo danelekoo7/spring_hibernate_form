@@ -67,10 +67,24 @@ public class JpqlTestController {
         return books;
     }
 
+    @GetMapping(value = "/book-with-publisher/{id}" )
+    @ResponseBody
+    public List<Book> findAllWithPublisherEquals(@PathVariable Long id ){
+        List<Book> books = bookDao.findAllWithPublisherEquals(id);
+        return books;
+    }
+
     @GetMapping(value = "/book-with-author" )
     @ResponseBody
     public List<Book> findAllWithAuthor(){
         List<Book> books = bookDao.findAllWithAuthors();
+        return books;
+    }
+
+    @GetMapping(value = "/book-with-author/{id}" )
+    @ResponseBody
+    public List<Book> findAllWithAuthorEquals(@PathVariable Long id){
+        List<Book> books = bookDao.findAllWithAuthorsEquals(id);
         return books;
     }
 
