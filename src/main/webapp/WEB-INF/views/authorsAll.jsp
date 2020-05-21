@@ -12,7 +12,7 @@
     <title>authors all</title>
 </head>
 <body>
-<table>
+<table border='1' style='border-collapse:collapse'>
     <h2><a href="<c:url value="/authors/add"/>">Dodaj nowego Autora</a></h2>
     <tbody>
     <th>imie</th>

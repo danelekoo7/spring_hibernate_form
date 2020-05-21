@@ -1,5 +1,7 @@
 package task.book.entity;
 
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
 import org.hibernate.validator.constraints.pl.NIP;
 import org.hibernate.validator.constraints.pl.REGON;
 
@@ -19,17 +21,16 @@ public class Publisher {
     @NotNull
     private String name;
 
-    @NIP
+//    @NIP
     private String nip;
 
-    @REGON
+//    @REGON
     private String regon;
 
 
-//    @OneToMany(fetch = FetchType.EAGER)
-
-//    @ManyToMany(mappedBy = "publishers")
-//    private List<Book> books = new ArrayList<>();
+    @OneToMany(fetch = FetchType.EAGER)
+    @Fetch(value = FetchMode.SUBSELECT)
+    private List<Book> books = new ArrayList<>();
 
     public Long getId() {
         return id;
@@ -47,13 +48,13 @@ public class Publisher {
         this.name = name;
     }
 
-//    public List<Book> getBooks() {
-//        return books;
-//    }
-//
-//    public void setBooks(List<Book> books) {
-//        this.books = books;
-//    }
+    public List<Book> getBooks() {
+        return books;
+    }
+
+    public void setBooks(List<Book> books) {
+        this.books = books;
+    }
 
 
     public String getNip() {

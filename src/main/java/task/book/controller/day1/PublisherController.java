@@ -2,19 +2,28 @@ package task.book.controller.day1;
 
 
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.*;
+import task.book.dao.BookDao;
 import task.book.dao.PublisherDao;
+import task.book.entity.Author;
+import task.book.entity.Book;
 import task.book.entity.Publisher;
 
+import javax.validation.Valid;
+import java.util.List;
+
 @Controller
+@RequestMapping("publishers")
 public class PublisherController {
 
     private final PublisherDao publisherDao;
+    private final BookDao bookDao;
 
-    public PublisherController(PublisherDao publisherDao) {
+    public PublisherController(PublisherDao publisherDao, BookDao bookDao) {
         this.publisherDao = publisherDao;
+        this.bookDao = bookDao;
     }
 
 
@@ -29,7 +38,6 @@ public class PublisherController {
     }
 
 
-
     @RequestMapping("/publisher/get/{id}")
     @ResponseBody
     public String getPublisher(@PathVariable long id) {
@@ -39,7 +47,7 @@ public class PublisherController {
 
     @RequestMapping("/publisher/update/{id}/{name}")
     @ResponseBody
-    public String updatePublisher(@PathVariable long id, @PathVariable String name ) {
+    public String updatePublisher(@PathVariable long id, @PathVariable String name) {
         Publisher publisher = publisherDao.findById(id);
         publisher.setName(name);
         publisherDao.update(publisher);
@@ -53,4 +61,74 @@ public class PublisherController {
         publisherDao.delete(publisher);
         return "deleted";
     }
+
+
+//    day 2
+
+    @GetMapping("/all")
+    public String showAll() {
+        return "publishersAll";
+    }
+
+//    @GetMapping("/all")
+//    @ResponseBody
+//    public List<Publisher> showAll() {
+//        return publisherDao.findAll();
+//    }
+
+    @GetMapping("/add")
+    public String addPublisher(Model model) {
+        model.addAttribute("publisher", new Publisher());
+        return "addPublisher";
+    }
+
+
+    @PostMapping("/add")
+    public String savePublisher(@Valid Publisher publisher, BindingResult result) {
+        if (result.hasErrors()) {
+            return "addPublisher";
+        }
+        publisherDao.savePublisher(publisher);
+        return "redirect:/publishers/all";
+    }
+
+
+    @GetMapping("/form/edit/{id}")
+    public String edit(@PathVariable Long id, Model model) {
+        model.addAttribute("publisher", publisherDao.findById(id));
+        return "publisherEdit";
+    }
+
+    @PostMapping(value = "/form/edit/{id}")
+    public String update(@Valid Publisher publisher, BindingResult result, @PathVariable Long id) {
+        if (result.hasErrors()) {
+            return "publisherEdit";
+        }
+        Publisher publisherInDB = publisherDao.findById(id);
+        publisherInDB.setName(publisher.getName());
+        publisherInDB.setNip(publisher.getNip());
+        publisherInDB.setRegon(publisher.getRegon());
+        publisherDao.update(publisherInDB);
+        return "redirect:/publishers/all";
+    }
+
+
+    @GetMapping("/form/delete/{id}")
+    public String delete(@PathVariable Long id) {
+        publisherDao.delete(publisherDao.findById(id));
+        return "redirect:/publishers/all";
+    }
+
+    @ModelAttribute("books")
+    public List<Book> findAllBookd() {
+        return bookDao.findAll();
+    }
+
+    @ModelAttribute("publishers")
+    public List<Publisher> findAllPublishers() {
+        return publisherDao.findAll();
+    }
+
 }
+
+

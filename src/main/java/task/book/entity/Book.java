@@ -38,7 +38,6 @@ public class Book {
     @NotNull
     @JsonBackReference
     @ManyToMany(fetch = FetchType.EAGER)
-
     private List<Author> authors = new ArrayList<>();
 
     @NotNull

@@ -12,7 +12,7 @@
     <title>books all</title>
 </head>
 <body>
-<table>
+<table border='1' style='border-collapse:collapse'>
     <tbody>
     <th>Title</th>
     <th>rating</th>
