@@ -32,8 +32,8 @@
                 <c:out value="${book.title}    "/>
             </c:forEach>
             </td>
-            <td><a href="<c:url value="/author/form/edit/${author.id}"/>">Edytuj</a></td>
-            <td><a href="<c:url value = "/author/form/delete/${author.id}"/>">Usun</a></td>
+            <td><a href="<c:url value="/authors/form/edit/${author.id}"/>">Edytuj</a></td>
+            <td><a href="<c:url value = "/authors/form/delete/${author.id}"/>">Usun</a></td>
         </tr>
     </c:forEach>
     </tbody>

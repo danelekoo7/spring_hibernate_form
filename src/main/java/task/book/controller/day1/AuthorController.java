@@ -66,17 +66,8 @@ public class AuthorController {
 
     @GetMapping("/all")
     public String showAll() {
-//        List<Author> authors = authorDao.findAll();
-//        model.addAttribute("authors", authors);
         return "authorsAll";
     }
-
-//    @GetMapping("/all")
-//    @ResponseBody
-//    public List<Author> showAll() {
-//        List<Author> authors = authorDao.findAll();
-//        return authors;
-//    }
 
     @GetMapping("/add")
     public String addAuthor(Model model) {
@@ -91,6 +82,35 @@ public class AuthorController {
             return "addAuthor";
         }
         authorDao.saveAuthor(author);
+        return "redirect:/authors/all";
+    }
+
+
+    @GetMapping("/form/edit/{id}")
+    public String edit(@PathVariable Long id, Model model) {
+        model.addAttribute("author", authorDao.findById(id));
+        return "authorEdit";
+    }
+
+    @PostMapping(value = "/form/edit/{id}")
+    public String update(@Valid Author author, BindingResult result, @PathVariable Long id) {
+        if (result.hasErrors()) {
+            return "authorEdit";
+        }
+        Author authorInDB = authorDao.findById(id);
+        authorInDB.setPesel(author.getPesel());
+        authorInDB.setEmail(author.getEmail());
+        authorInDB.setFirstName(author.getFirstName());
+        authorInDB.setLastName(author.getLastName());
+        authorInDB.setYearOfBirth(author.getYearOfBirth());
+        authorDao.update(authorInDB);
+        return "redirect:/authors/all";
+    }
+
+
+    @GetMapping("/form/delete/{id}")
+    public String question(@PathVariable Long id) {
+        authorDao.delete(authorDao.findById(id));
         return "redirect:/authors/all";
     }
 
