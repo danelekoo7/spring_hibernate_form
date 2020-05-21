@@ -8,13 +8,12 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="form"
            uri="http://www.springframework.org/tags/form" %>
-
 <html>
 <head>
-    <title>dodawanie propozycji ksiazki</title>
+    <title>edytowanie propozycji</title>
 </head>
 <body>
-<form:form method="POST" modelAttribute="book">
+<form:form method="post" modelAttribute="book">
     title: <form:input path="title"/>
     <form:errors path="title"/>
     rating: <form:input path="rating"/>
@@ -22,9 +21,13 @@
     description: <form:input path="description"/>
     <form:errors path="description"/>
 
-<br>
-   publisher: <form:select path="publisher" itemLabel="name" itemValue="id" items="${publishers}"/>
-   authors: <form:select path="authors" itemLabel="lastName"  itemValue="id" items="${authors}"/>
+<%--    <form:hidden path="proposition"></form:hidden>--%>
+
+    <form:select path="publisher" itemLabel="name" itemValue="id" items="${publishers}"/>
+    <form:errors path="publisher"/>
+
+    authors: <form:select path="authors" itemLabel="lastName" itemValue="id" multiple="true" items="${authors}"/>
+    <form:errors path="authors"/>
 
     <input type="submit">
 </form:form>

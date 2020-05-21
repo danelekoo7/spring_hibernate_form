@@ -2,10 +2,12 @@ package task.book.entity;
 
 import com.fasterxml.jackson.annotation.*;
 import org.hibernate.validator.constraints.Range;
+import task.validation.ValidationBookGroup;
 import task.validation.ValidationPropositionGroup;
 
 import javax.persistence.*;
 import javax.validation.constraints.Min;
+import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.util.ArrayList;
@@ -19,28 +21,30 @@ public class Book {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-//    @Size(min = 5, groups = ValidationPropositionGroup.class)
-    @Size(min = 5)
+    @NotBlank(groups = {ValidationPropositionGroup.class, ValidationBookGroup.class})
+    @Size(min = 5, groups = ValidationBookGroup.class)
     private String title;
 
-    @Range(min = 0, max = 10)
+    @NotNull(groups = ValidationBookGroup.class)
+    @Range(min = 0, max = 10, groups = ValidationBookGroup.class)
     private Integer rating;
 
+    @NotBlank
     @Size(max = 600)
     private String description;
 
-    @Min(1)
+    @Min(value = 1, groups = ValidationBookGroup.class)
     private Integer pages;
 
 
     private boolean proposition;
 
-    @NotNull
+    @NotNull(groups = ValidationBookGroup.class)
     @JsonBackReference
     @ManyToMany(fetch = FetchType.EAGER)
     private List<Author> authors = new ArrayList<>();
 
-    @NotNull
+    @NotNull(groups = ValidationBookGroup.class)
     @ManyToOne
     @JoinColumn(name = "publisher_id")
     private Publisher publisher;

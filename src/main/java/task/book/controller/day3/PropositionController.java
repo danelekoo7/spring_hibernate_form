@@ -4,9 +4,10 @@ package task.book.controller.day3;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
+
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.view.RedirectView;
+
 import task.book.dao.AuthorDao;
 import task.book.dao.BookDao;
 import task.book.dao.PublisherDao;
@@ -15,6 +16,8 @@ import task.book.entity.Book;
 import task.book.entity.Publisher;
 import task.validation.ValidationPropositionGroup;
 
+import javax.validation.Valid;
+import javax.validation.groups.Default;
 import java.util.List;
 
 @Controller
@@ -31,18 +34,23 @@ public class PropositionController {
         this.authorDao = authorDao;
     }
 
+    @GetMapping("all")
+    public String showAll() {
+        return "propositionAll";
+    }
 
-    @RequestMapping(value = "", method = RequestMethod.GET)
+    @RequestMapping(value = "/add", method = RequestMethod.GET)
     public String getForm(Model model) {
         model.addAttribute("book", new Book());
         return "propositionForm";
     }
 
 
-    @PostMapping
-    public String create(@Validated({ValidationPropositionGroup.class}) Book book, BindingResult result, Model model){
-//        if (result.hasErrors())
-
+    @PostMapping("/add")
+    public String create(@Validated({ValidationPropositionGroup.class, Default.class}) Book book, BindingResult result) {
+        if (result.hasErrors()) {
+            return "propositionForm";
+        }
         Book newBook = new Book();
         newBook.setDescription(book.getDescription());
         newBook.setTitle(book.getTitle());
@@ -54,42 +62,38 @@ public class PropositionController {
         bookDao.saveBook(newBook);
 
         List<Book> books = bookDao.findAllProposition();
-        model.addAttribute("books", books);
 
-        return "propositionAll";
+
+        return "redirect:/proposition/all";
+    }
+
+
+    @GetMapping("/edit/{id}")
+    public String edit(@PathVariable Long id, Model model) {
+        model.addAttribute("book", bookDao.findById(id));
+        return "propositionEdit";
     }
 
 
     @PostMapping(value = "/edit/{id}")
-    public RedirectView update(@ModelAttribute Book bookEdit, @PathVariable Long id) {
+    public String update(@Validated({ValidationPropositionGroup.class, Default.class}) Book book, BindingResult result, @PathVariable Long id) {
+        if (result.hasErrors()) {
+            return "propositionEdit";
+        }
         Book bookInDB = bookDao.findById(id);
-        bookInDB.setPublisher(bookEdit.getPublisher());
-        bookInDB.setTitle(bookEdit.getTitle());
-        bookInDB.setDescription(bookEdit.getDescription());
-        bookInDB.setRating(bookEdit.getRating());
+        bookInDB.setPublisher(book.getPublisher());
+        bookInDB.setTitle(book.getTitle());
+        bookInDB.setDescription(book.getDescription());
+        bookInDB.setRating(book.getRating());
         bookDao.update(bookInDB);
-        return new RedirectView("/all");
-    }
 
-    @GetMapping("/edit/{id}")
-    public String edit(@PathVariable Long id, Model model) {
-        model.addAttribute("bookEdit", bookDao.findById(id));
-        return "bookEdit";
+        return "redirect:/proposition/all";
     }
 
     @GetMapping("/delete/{id}")
-    public String question(@PathVariable Long id, Model model) {
-        model.addAttribute("oneBook", bookDao.findById(id));
-        return "bookDelete";
-    }
-
-    @GetMapping(value = "/deleteConfirm/{confirm}/{id}")
-    @ResponseBody
-    public RedirectView update(@PathVariable boolean confirm, @PathVariable Long id) {
-        if (confirm) {
-            bookDao.delete(bookDao.findById(id));
-        }
-        return new RedirectView("/all");
+    public String question(@PathVariable Long id) {
+        bookDao.delete(bookDao.findById(id));
+        return "redirect:/proposition/all";
     }
 
 
@@ -102,4 +106,11 @@ public class PropositionController {
     public List<Author> authorList() {
         return authorDao.findAll();
     }
+
+
+    @ModelAttribute("books")
+    public List<Book> bookList() {
+        return bookDao.findAllProposition();
+    }
+
 }

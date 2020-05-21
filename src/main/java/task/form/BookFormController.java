@@ -3,6 +3,7 @@ package task.form;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.view.RedirectView;
 import task.book.dao.AuthorDao;
@@ -11,8 +12,9 @@ import task.book.dao.PublisherDao;
 import task.book.entity.Author;
 import task.book.entity.Book;
 import task.book.entity.Publisher;
+import task.validation.ValidationBookGroup;
 
-import javax.validation.Valid;
+import javax.validation.groups.Default;
 import java.util.List;
 
 @Controller
@@ -37,7 +39,7 @@ public class BookFormController {
     }
 
     @RequestMapping(value = "", method = RequestMethod.POST)
-    public String create(@Valid Book book, BindingResult result) {
+    public String create(@Validated({ValidationBookGroup.class, Default.class })  Book book, BindingResult result) {
         if (result.hasErrors()) {
             return "bookForm";
         }
@@ -53,7 +55,7 @@ public class BookFormController {
     }
 
     @PostMapping(value = "/edit/{id}")
-    public String update(@Valid Book book, BindingResult result, @PathVariable Long id) {
+    public String update(@Validated({ValidationBookGroup.class, Default.class}) Book book, BindingResult result, @PathVariable Long id) {
         if (result.hasErrors()) {
             return "bookEdit";
         }
