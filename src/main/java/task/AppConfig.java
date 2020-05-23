@@ -3,6 +3,7 @@ package task;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.format.FormatterRegistry;
 import org.springframework.http.converter.HttpMessageConverter;
 import org.springframework.orm.jpa.JpaTransactionManager;
@@ -31,6 +32,7 @@ import java.util.Locale;
 @EnableWebMvc
 @ComponentScan(basePackages = "task")
 @EnableTransactionManagement
+@EnableJpaRepositories  //ADNOTACJA ODPOWIEDZIALNA ZA WŁĄCZENIE SPRING DATA
 public class AppConfig implements WebMvcConfigurer {
     @Override
     public void configureMessageConverters(List<HttpMessageConverter<?>> converters) {

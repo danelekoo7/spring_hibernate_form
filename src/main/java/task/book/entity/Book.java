@@ -36,6 +36,10 @@ public class Book {
     @Min(value = 1, groups = ValidationBookGroup.class)
     private Integer pages;
 
+    @ManyToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "category_id")
+    private Category category;
+
 
     private boolean proposition;
 
@@ -108,6 +112,13 @@ public class Book {
         this.pages = pages;
     }
 
+    public Category getCategory() {
+        return category;
+    }
+
+    public void setCategory(Category category) {
+        this.category = category;
+    }
 
     @Override
     public String toString() {
