@@ -9,6 +9,7 @@ import task.book.entity.Category;
 import task.book.entity.Publisher;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface BookRepository extends JpaRepository<Book, Long>,CustomizedBookRepository {
 
@@ -21,6 +22,16 @@ public interface BookRepository extends JpaRepository<Book, Long>,CustomizedBook
     List<Book> findByCategoryId(Long id);
 
     List<Book> findAllByAuthors(Author author);
+
+    List<Book> findByPublisher(Publisher publisher);
+
+    List<Book> findByRatingBetween(int start, int end);
+
+    Optional<Book> findFirstByCategoryOrderByTitle(Category c);
+
+
+
+
 
 
     @Query("SELECT b FROM Book b where b.title = ?1")
@@ -35,7 +46,7 @@ public interface BookRepository extends JpaRepository<Book, Long>,CustomizedBook
 
 
     @Query("SELECT b FROM Book b WHERE b.publisher=:publisher")
-    List<Book> findBookByPublisher(@Param("publisher") Publisher publisher);
+    List<Book> customizedFindBookByPublisher(@Param("publisher") Publisher publisher);
 
     @Query("SELECT b FROM Book b WHERE b.category=:category")
     List<Book> findBookByCategory(@Param("category") Category category );

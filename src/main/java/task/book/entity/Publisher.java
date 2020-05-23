@@ -1,5 +1,6 @@
 package task.book.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.FetchMode;
 import org.hibernate.validator.constraints.pl.NIP;
@@ -21,13 +22,13 @@ public class Publisher {
     @NotNull
     private String name;
 
-//    @NIP
+    //    @NIP
     private String nip;
 
-//    @REGON
+    //    @REGON
     private String regon;
 
-
+    @JsonIgnore
     @OneToMany(fetch = FetchType.EAGER)
     @Fetch(value = FetchMode.SUBSELECT)
     private List<Book> books = new ArrayList<>();

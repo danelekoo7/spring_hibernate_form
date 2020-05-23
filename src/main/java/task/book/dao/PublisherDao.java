@@ -39,10 +39,6 @@ public class PublisherDao {
         entityManager.merge(publisher);
     }
 
-    public Publisher findById(long id)
-    {
-        return entityManager.find(Publisher.class, id);
-    }
 
     public void delete(Publisher publisher) {
         entityManager.remove(entityManager.contains(publisher) ?
